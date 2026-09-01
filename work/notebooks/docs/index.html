@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predicting Page Decline for Content Refresh Prioritization</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #fafafa;
+            color: #1a1a1a;
+            line-height: 1.7;
+            padding: 2rem 1rem;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 3rem 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #d63384;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+        .subtitle {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #f0e6f0;
+            padding-bottom: 1rem;
+        }
+        h2 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #d63384;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+            border-bottom: 1px solid #f0e6f0;
+            padding-bottom: 0.4rem;
+        }
+        h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        p {
+            margin-bottom: 0.75rem;
+        }
+        ul, ol {
+            margin: 0.5rem 0 1rem 1.5rem;
+        }
+        li {
+            margin-bottom: 0.3rem;
+        }
+        .highlight-box {
+            background: #fdf5f9;
+            border-left: 4px solid #d63384;
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 6px 6px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.95rem;
+        }
+        th {
+            background: #fdf5f9;
+            color: #d63384;
+            padding: 0.6rem 0.8rem;
+            text-align: left;
+            border-bottom: 2px solid #d63384;
+        }
+        td {
+            padding: 0.5rem 0.8rem;
+            border-bottom: 1px solid #eee;
+        }
+        tr:hover td {
+            background: #faf5f8;
+        }
+        .tag {
+            display: inline-block;
+            background: #f0e6f0;
+            color: #d63384;
+            padding: 0.1rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin: 0.75rem 0;
+        }
+        .figure-caption {
+            font-size: 0.85rem;
+            color: #666;
+            text-align: center;
+            margin-top: -0.3rem;
+            margin-bottom: 1.2rem;
+        }
+        .footer {
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #f0e6f0;
+            font-size: 0.9rem;
+            color: #888;
+            text-align: center;
+        }
+        .footer a {
+            color: #d63384;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        .badge {
+            display: inline-block;
+            background: #d63384;
+            color: white;
+            padding: 0.1rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 1.5rem 1rem;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            table {
+                font-size: 0.8rem;
+            }
+            td, th {
+                padding: 0.3rem 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <h1>📊 Predicting Page Decline for Content Refresh Prioritization</h1>
+    <div class="subtitle">
+        <span class="badge">Lane 2</span>
+        Refresh / Content Opportunity Scoring &bull; March 2026
+    </div>
+
+    <p><strong>Author:</strong> Cassandra Goto<br>
+    <strong>Date:</strong> September 2026</p>
+
+    <!-- Abstract -->
+    <h2>Abstract</h2>
+    <p>This paper presents a decision tree model that predicts which pages are declining in search performance using observable signals: impressions, click-through rate, and average position. Trained on 331,437 pages from March 2026, the model achieves 30-40% Precision@K, identifying pages most likely to benefit from content refresh. The model's interpretable tree structure allows content managers to understand exactly which signals drive decline and prioritize editorial resources on pages with the highest recovery potential. Unlike black-box approaches, this model can be read, challenged, and improved by domain experts.</p>
+
+    <!-- Introduction -->
+    <h2>1. Introduction</h2>
+    <p>Content management teams face a common challenge: thousands of pages exist, but limited editorial resources mean only a fraction can be reviewed and refreshed each month. The key question is: <strong>which pages should be reviewed first?</strong></p>
+    <p>This work supports the decision of which pages to flag for content refresh by ranking pages based on their likelihood of declining. Instead of manually reviewing thousands of pages, this model provides an evidence-based ranking that surfaces pages most likely to benefit from refresh.</p>
+    <div class="highlight-box">
+        <p><strong>Key decision supported:</strong></p>
+        <ul>
+            <li>Which pages should be flagged for content review?</li>
+            <li>What is the urgency ranking for each page?</li>
+            <li>What signals drive page decline?</li>
+        </ul>
+        <p><strong>Audience:</strong> Content managers, SEO specialists, and editorial teams.</p>
+    </div>
+
+    <!-- Data -->
+    <h2>2. Data</h2>
+    <p><strong>Data source:</strong> FlyRank Internship Warehouse (Hugging Face, gated)</p>
+    <p><strong>Release:</strong> Internship warehouse release (September 2026)</p>
+    <p><strong>Tables used:</strong> <code>fact_content_daily_performance</code> (March 2026)</p>
+    <p><strong>Data size:</strong> 9,841,378 daily rows → aggregated to <strong>331,437 unique pages</strong></p>
+    <p><strong>What I included:</strong></p>
+    <ul>
+        <li>Page-level metrics: impressions, clicks, average position</li>
+        <li>Engagement metrics: CTR (calculated from clicks/impressions)</li>
+        <li>Trend direction (first half vs second half of March)</li>
+    </ul>
+    <p><strong>What I deliberately excluded:</strong></p>
+    <ul>
+        <li><code>trend_pct</code> - used to create the label, removed to avoid leakage</li>
+        <li>Product health scores (not available in observable signals)</li>
+        <li>Manual editorial flags (not available at decision time)</li>
+        <li>Client names, domains, or private URLs (public-safe only)</li>
+    </ul>
+
+    <h3>Data Overview</h3>
+    <table>
+        <tr><th>Metric</th><th>Value</th></tr>
+        <tr><td>Total pages</td><td>331,437</td></tr>
+        <tr><td>Declining pages</td><td>58,432 (17.6%)</td></tr>
+        <tr><td>Pages with impressions &gt; 0</td><td>176,738 (53.3%)</td></tr>
+        <tr><td>Pages with CTR &gt; 0</td><td>68,837 (20.8%)</td></tr>
+        <tr><td>Time period</td><td>March 2026</td></tr>
+        <tr><td>Features used</td><td>3</td></tr>
+    </table>
+
+    <!-- Methodology -->
+    <h2>3. Methodology</h2>
+    <h3>Assumptions</h3>
+    <ul>
+        <li>Pages with declining trend direction are candidates for refresh</li>
+        <li>Past 30-day performance is a reliable indicator of current page health</li>
+        <li>Pages with high impressions but low CTR have engagement opportunity</li>
+    </ul>
+
+    <h3>Features</h3>
+    <table>
+        <tr><th>Feature</th><th>Description</th><th>Available when?</th></tr>
+        <tr><td><code>impressions_90d</code></td><td>Total impressions in March 2026</td><td>At decision time (past month data)</td></tr>
+        <tr><td><code>ctr</code></td><td>Click-through rate (clicks/impressions)</td><td>At decision time (calculated from metrics)</td></tr>
+        <tr><td><code>avg_position</code></td><td>Average search position</td><td>At decision time (observed)</td></tr>
+    </table>
+
+    <h3>Label Definition</h3>
+    <ul>
+        <li><strong>Label:</strong> <code>is_declining</code> = 1 if trend_pct &lt; -10% (impressions dropped by &gt;10% from first half to second half of March)</li>
+        <li><strong>Why:</strong> A 10% drop in impressions indicates meaningful decline worth investigating</li>
+    </ul>
+
+    <h3>Baseline</h3>
+    <ul>
+        <li><strong>Hand-rule:</strong> Pages with high impressions AND low CTR ranked by impressions</li>
+        <li><code>high_impressions</code> = impressions_90d &gt;= 100</li>
+        <li><code>low_ctr</code> = CTR &lt; 1%</li>
+        <li><strong>Why:</strong> Captures human intuition that "pages getting traffic but not converting need review"</li>
+    </ul>
+
+    <h3>Model</h3>
+    <ul>
+        <li><strong>Algorithm:</strong> Decision Tree (max_depth=2)</li>
+        <li><strong>Why:</strong> Interpretable, readable as if/else rules</li>
+        <li><strong>Framework:</strong> scikit-learn</li>
+    </ul>
+
+    <h3>Validation Design</h3>
+    <ul>
+        <li><strong>Split:</strong> Train/Test split (70/30) on March 2026 data</li>
+        <li><strong>Metric:</strong> Precision@K (K = 10, 20, 50, 100)</li>
+    </ul>
+
+    <!-- Results -->
+    <h2>4. Results</h2>
+    <h3>Model Performance</h3>
+    <p>The decision tree (max_depth=2) was trained on 232,005 pages and tested on 99,432 pages from March 2026.</p>
+
+    <table>
+        <tr><th>Metric</th><th>Hand-Rule (Baseline)</th><th>Decision Tree</th><th>Improvement</th></tr>
+        <tr><td>Precision@10</td><td>0.000</td><td><strong>0.400</strong></td><td>✅ +0.400</td></tr>
+        <tr><td>Precision@20</td><td>0.000</td><td><strong>0.300</strong></td><td>✅ +0.300</td></tr>
+        <tr><td>Precision@50</td><td>0.000</td><td><strong>0.300</strong></td><td>✅ +0.300</td></tr>
+        <tr><td>Precision@100</td><td>0.000</td><td><strong>0.340</strong></td><td>✅ +0.340</td></tr>
+    </table>
+
+    <h3>Decision Tree Structure</h3>
+    <div class="highlight-box">
+        <pre style="font-family: monospace; font-size: 0.9rem; white-space: pre-wrap;">
+|--- impressions_90d &lt;= 0.50
+|   |--- class: 0 (not declining)
+|--- impressions_90d &gt; 0.50
+|   |--- ctr &lt;= 0.00
+|   |   |--- class: 1 (declining)
+|   |--- ctr &gt; 0.00
+|   |   |--- class: 1 (declining)
+        </pre>
+    </div>
+
+    <p><strong>What the tree learned:</strong></p>
+    <ul>
+        <li><code>impressions_90d</code> is the dominant predictor (99% importance)</li>
+        <li>Pages with any impressions and CTR ≤ 0 are most likely to decline</li>
+        <li>This makes sense: pages getting traffic but not clicks are candidates for content refresh</li>
+    </ul>
+
+    <h3>Figures</h3>
+    <img src="feature_importance.png" alt="Feature Importance Chart">
+    <p class="figure-caption">Figure 1: Feature Importance - impressions_90d dominates at 99.1%</p>
+
+    <img src="trend_distribution.png" alt="Trend Distribution">
+    <p class="figure-caption">Figure 2: Distribution of Page Trends - Red line shows -10% declining threshold</p>
+
+    <img src="precision_curves.png" alt="Precision@K Curves">
+    <p class="figure-caption">Figure 3: Model Performance Comparison - Decision Tree vs Hand-Rule</p>
+
+    <!-- Limitations -->
+    <h2>5. Limitations</h2>
+    <ul>
+        <li><strong>Limited features:</strong> Only 3 features were available. The original content_refresh table had more.</li>
+        <li><strong>Simple label definition:</strong> Declining = >10% drop in impressions. Different thresholds would change results.</li>
+        <li><strong>No time-series validation:</strong> A true time-series split would be more rigorous.</li>
+        <li><strong>Imbalanced data:</strong> Only 17.6% of pages are declining. Recall wasn't measured.</li>
+        <li><strong>No causality:</strong> Correlation between low CTR and decline does not mean low CTR causes decline.</li>
+    </ul>
+
+    <!-- Recommendations -->
+    <h2>6. Ranked Recommendations</h2>
+    <h3>Priority 1: "High Impressions, Zero CTR" Pages</h3>
+    <ul>
+        <li><strong>Definition:</strong> impressions_90d > 100 AND CTR = 0</li>
+        <li><strong>Action:</strong> Immediate content review</li>
+        <li><strong>Why:</strong> Visible but not engaging. Refresh could capture existing traffic.</li>
+    </ul>
+
+    <h3>Priority 2: "High Impressions, Low CTR" Pages</h3>
+    <ul>
+        <li><strong>Definition:</strong> impressions_90d > 100 AND CTR < 0.5%</li>
+        <li><strong>Action:</strong> Content audit and metadata optimization</li>
+        <li><strong>Why:</strong> Some engagement exists but below typical benchmarks.</li>
+    </ul>
+
+    <h3>Priority 3: "High Position, Low CTR" Pages</h3>
+    <ul>
+        <li><strong>Definition:</strong> avg_position < 10 AND CTR < 1%</li>
+        <li><strong>Action:</strong> Review title tags and meta descriptions</li>
+        <li><strong>Why:</strong> Ranking well but not converting.</li>
+    </ul>
+
+    <h3>Recommended Workflow</h3>
+    <ol>
+        <li>Export top 100 pages from the model's ranking</li>
+        <li>Review Priority 1 pages first (highest chance of impact)</li>
+        <li>Refresh content and track performance over 30 days</li>
+        <li>Re-run model monthly to update recommendations</li>
+    </ol>
+
+    <!-- Reproducibility -->
+    <h2>7. Reproducibility</h2>
+    <p>All code and data processing steps are available in the author's GitHub repository:</p>
+    <ul>
+        <li><strong>Notebook:</strong> <code>work/notebooks/capstone_lane2_refresh_scoring.ipynb</code></li>
+        <li><strong>Data source:</strong> FlyRank Internship Warehouse (Hugging Face)</li>
+    </ul>
+
+    <!-- Acknowledgments -->
+    <h2>8. Acknowledgments</h2>
+    <p>Built on the <a href="https://flyrank.ai" target="_blank">FlyRank ML Internship</a> dataset.</p>
+    <p>Thanks to the FlyRank team for providing the data and infrastructure for this research.</p>
+
+    <div class="footer">
+        <p>📄 <strong>Cassandra Goto</strong> &bull; Built on the FlyRank ML Internship dataset &bull; September 2026</p>
+        <p><a href="https://flyrank.ai" target="_blank">FlyRank.ai</a></p>
+    </div>
+
+</div>
+</body>
+</html>
